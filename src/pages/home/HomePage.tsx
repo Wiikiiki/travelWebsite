@@ -13,6 +13,7 @@ import { productList1, productList2, productList3 } from "./mockups";
 import sideImage1 from "../../assets/images/sider_2019_12-09.png";
 import sideImage2 from "../../assets/images/sider_2019_02-04.png";
 import sideImage3 from "../../assets/images/sider_2019_02-04-2.png";
+// import { withTranslation, WithTranslation } from "react-i18next";
 
 // import { withRouter, RouteComponentProps } from "../../helpers/withRouter";
 
@@ -65,4 +66,6 @@ export class HomePage extends React.Component {
   }
 }
 
-// export const HomePage = withRouter(HomePageComponent);
+//export const HomePage = withRouter(HomePageComponent);
+
+// export const HomePage = withTranslation()(HomePageComponent);
