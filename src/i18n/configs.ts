@@ -6,10 +6,10 @@ import translation_zh from "./zh.json";
 
 const resources = {
   en: {
-    translation: { translation_en },
+    translation: translation_en,
   },
   zh: {
-    translation: { translation_zh },
+    translation: translation_zh,
   },
 };
 
