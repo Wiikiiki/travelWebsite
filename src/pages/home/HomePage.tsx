@@ -9,31 +9,15 @@ import {
   BusinessPartners,
 } from "../../components";
 import { Col, Row, Typography, Spin } from "antd";
-// import { productList1, productList2, productList3 } from "./mockups";
-
-import axios from "axios";
 
 import sideImage1 from "../../assets/images/sider_2019_12-09.png";
 import sideImage2 from "../../assets/images/sider_2019_02-04.png";
 import sideImage3 from "../../assets/images/sider_2019_02-04-2.png";
 import { withTranslation, WithTranslation } from "react-i18next";
 
-// import { withRouter, RouteComponentProps } from "../../helpers/withRouter";
-
 import { connect } from "react-redux";
 import { RootState } from "../../redux/stroe";
-import {
-  fetchRecommendProductStartActionCreator,
-  fetchRecommendProductSuccessActionCreator,
-  fetchRecommendProductFailActionCreator,
-} from "../../redux/recommendProducts/recommendProductsActions";
-
-// 使用 redux，删除 state
-// interface State {
-//   loading: boolean;
-//   error: string | null;
-//   productList: any[];
-// }
+import { giveMeDataActionCreator } from "../../redux/recommendProducts/recommendProductsActions";
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -45,14 +29,8 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchStart: () => {
-      dispatch(fetchRecommendProductStartActionCreator());
-    },
-    fetchSuccess: (data) => {
-      dispatch(fetchRecommendProductSuccessActionCreator(data));
-    },
-    fetchFail: (error) => {
-      dispatch(fetchRecommendProductFailActionCreator(error));
+    giveMeData: () => {
+      dispatch(giveMeDataActionCreator());
     },
   };
 };
@@ -62,37 +40,13 @@ type PropsType = WithTranslation &
   ReturnType<typeof mapDispatchToProps>;
 
 class HomePageComponent extends React.Component<PropsType> {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     loading: true,
-  //     error: null,
-  //     productList: [],
-  //   };
-  // }
-
-  async componentDidMount() {
-    this.props.fetchStart();
-    try {
-      const { data } = await axios.get(
-        "http://123.56.149.216:8080/api/productCollections"
-      );
-      this.props.fetchSuccess(data);
-      // this.setState({
-      //   loading: false,
-      //   error: null,
-      //   productList: data,
-      // });
-    } catch (error) {
-      this.props.fetchFail(error instanceof Error ? error.message : "error");
-      // if (error instanceof Error) {
-      // this.setState({ error: error.message, loading: false });
-    }
+  componentDidMount() {
+    this.props.giveMeData();
   }
 
   render(): React.ReactNode {
     const { t, productList, loading, error } = this.props;
-    // const { productList, loading, error } = this.state;
+
     if (loading) {
       return (
         <Spin
@@ -158,8 +112,6 @@ class HomePageComponent extends React.Component<PropsType> {
     );
   }
 }
-
-//export const HomePage = withRouter(HomePageComponent);
 
 export const HomePage = connect(
   mapStateToProps,

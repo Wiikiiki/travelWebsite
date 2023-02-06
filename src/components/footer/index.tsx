@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 
 export const Footer: React.FC = () => {
   const { t } = useTranslation();
-  console.log("8, translation", t);
 
   return (
     <Layout.Footer className={styles["footer"]}>
