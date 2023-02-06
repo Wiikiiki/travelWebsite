@@ -8,8 +8,11 @@ import {
   ProductCollection,
   BusinessPartners,
 } from "../../components";
-import { Col, Row, Typography } from "antd";
-import { productList1, productList2, productList3 } from "./mockups";
+import { Col, Row, Typography, Spin } from "antd";
+// import { productList1, productList2, productList3 } from "./mockups";
+
+import axios from "axios";
+
 import sideImage1 from "../../assets/images/sider_2019_12-09.png";
 import sideImage2 from "../../assets/images/sider_2019_02-04.png";
 import sideImage3 from "../../assets/images/sider_2019_02-04-2.png";
@@ -17,9 +20,98 @@ import { withTranslation, WithTranslation } from "react-i18next";
 
 // import { withRouter, RouteComponentProps } from "../../helpers/withRouter";
 
-class HomePageComponent extends React.Component<WithTranslation> {
+import { connect } from "react-redux";
+import { RootState } from "../../redux/stroe";
+import {
+  fetchRecommendProductStartActionCreator,
+  fetchRecommendProductSuccessActionCreator,
+  fetchRecommendProductFailActionCreator,
+} from "../../redux/recommendProducts/recommendProductsActions";
+
+// 使用 redux，删除 state
+// interface State {
+//   loading: boolean;
+//   error: string | null;
+//   productList: any[];
+// }
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    loading: state.recommendProducts.loading,
+    error: state.recommendProducts.error,
+    productList: state.recommendProducts.productList,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchStart: () => {
+      dispatch(fetchRecommendProductStartActionCreator());
+    },
+    fetchSuccess: (data) => {
+      dispatch(fetchRecommendProductSuccessActionCreator(data));
+    },
+    fetchFail: (error) => {
+      dispatch(fetchRecommendProductFailActionCreator(error));
+    },
+  };
+};
+
+type PropsType = WithTranslation &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+class HomePageComponent extends React.Component<PropsType> {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     loading: true,
+  //     error: null,
+  //     productList: [],
+  //   };
+  // }
+
+  async componentDidMount() {
+    this.props.fetchStart();
+    try {
+      const { data } = await axios.get(
+        "http://123.56.149.216:8080/api/productCollections"
+      );
+      this.props.fetchSuccess(data);
+      // this.setState({
+      //   loading: false,
+      //   error: null,
+      //   productList: data,
+      // });
+    } catch (error) {
+      this.props.fetchFail(error instanceof Error ? error.message : "error");
+      // if (error instanceof Error) {
+      // this.setState({ error: error.message, loading: false });
+    }
+  }
+
   render(): React.ReactNode {
-    const { t } = this.props;
+    const { t, productList, loading, error } = this.props;
+    // const { productList, loading, error } = this.state;
+    if (loading) {
+      return (
+        <Spin
+          size="large"
+          style={{
+            marginTop: 200,
+            marginBottom: 200,
+            marginLeft: "auto",
+            marginRight: "auto",
+            width: "100%",
+          }}
+        />
+      );
+    }
+
+    if (error) {
+      return <div>网站出错：{error}</div>;
+    }
+
     return (
       <>
         <Header />
@@ -39,7 +131,7 @@ class HomePageComponent extends React.Component<WithTranslation> {
               </Typography.Title>
             }
             sideImage={sideImage1}
-            products={productList1}
+            products={productList[0].touristRoutes}
           />
           <ProductCollection
             title={
@@ -48,7 +140,7 @@ class HomePageComponent extends React.Component<WithTranslation> {
               </Typography.Title>
             }
             sideImage={sideImage2}
-            products={productList2}
+            products={productList[1].touristRoutes}
           />
           <ProductCollection
             title={
@@ -57,7 +149,7 @@ class HomePageComponent extends React.Component<WithTranslation> {
               </Typography.Title>
             }
             sideImage={sideImage3}
-            products={productList3}
+            products={productList[2].touristRoutes}
           />
         </div>
         <BusinessPartners />
@@ -69,4 +161,7 @@ class HomePageComponent extends React.Component<WithTranslation> {
 
 //export const HomePage = withRouter(HomePageComponent);
 
-export const HomePage = withTranslation()(HomePageComponent);
+export const HomePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withTranslation()(HomePageComponent));
