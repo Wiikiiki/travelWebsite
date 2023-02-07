@@ -1,6 +1,6 @@
-import React from "react";
 import styles from "./ProductIntro.module.css";
-import { Typography, Carousel, Image, Table, Rate } from "antd";
+import React from "react";
+import { Typography, Carousel, Image, Rate, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 
 interface PropsType {
@@ -23,9 +23,9 @@ const columns: ColumnsType<RowType> = [
     width: 120,
   },
   {
-    title: "discription",
-    dataIndex: "discription",
-    key: "discription",
+    title: "description",
+    dataIndex: "description",
+    key: "description",
     align: "center",
   },
 ];
@@ -41,7 +41,6 @@ export const ProductIntro: React.FC<PropsType> = ({
   shortDescription,
   price,
   coupons,
-  points,
   discount,
   rating,
   pictures,
@@ -98,16 +97,17 @@ export const ProductIntro: React.FC<PropsType> = ({
   ];
 
   return (
-    <div className={styles["intro_container"]}>
+    <div className={styles["intro-container"]}>
       <Typography.Title level={4}>{title}</Typography.Title>
       <Typography.Text>{shortDescription}</Typography.Text>
-      <div className={styles["intro_detail_content"]}>
+      <div className={styles["intro-detail-content"]}>
         <Typography.Text style={{ marginLeft: 20 }}>
-          ￥ <span className={styles["intro_detail_strong_text"]}>{price}</span>{" "}
+          ¥ <span className={styles["intro-detail-strong-text"]}>{price}</span>{" "}
           /人起
         </Typography.Text>
         <Typography.Text style={{ marginLeft: 50 }}>
-          <span className={styles["intro_detail_strong_text"]}>{price}</span> 分
+          <span className={styles["intro-detail-strong-text"]}>{rating}</span>{" "}
+          分
         </Typography.Text>
       </div>
       <Carousel autoplay slidesToShow={3}>
@@ -121,6 +121,7 @@ export const ProductIntro: React.FC<PropsType> = ({
         size="small"
         bordered={false}
         pagination={false}
+        showHeader={false}
       />
     </div>
   );
