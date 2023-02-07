@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -19,7 +19,11 @@ import {
   ProductComments,
 } from "../../components";
 
+import { useSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
+
 import { commentMockData } from "./mockup";
+import { productDetailSlice } from "../../redux/productDetail/slice";
 
 const { RangePicker } = DatePicker;
 
@@ -29,26 +33,37 @@ type MatchParams = {
 
 export const DetailPage: React.FC = () => {
   const { touristRouteId } = useParams<MatchParams>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [product, setProduct] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
+  // 获取数据，保存至本地变量
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [product, setProduct] = useState<any>(null);
+  // const [error, setError] = useState<string | null>(null);
+
+  const loading = useSelector((state) => state.productDetail.loading);
+  const error = useSelector((state) => state.productDetail.error);
+  const product = useSelector((state) => state.productDetail.data);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      dispatch(productDetailSlice.actions.fetchStart());
       try {
         const { data } = await axios.get(
           `http://123.56.149.216:8080/api/touristRoutes/${touristRouteId}`
         );
-        setProduct(data);
-        setLoading(false);
+        dispatch(productDetailSlice.actions.fetchSuccess(data));
       } catch (error) {
-        setError(error instanceof Error ? error.message : "error");
-        setLoading(false);
+        dispatch(
+          productDetailSlice.actions.fetchFail(
+            error instanceof Error ? error.message : null
+          )
+        );
       }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   if (loading) {
     return (
       <Spin
