@@ -6,3 +6,7 @@ export { ProductCollection } from "./productCollection";
 export { BusinessPartners } from "./businessPartners";
 export { ProductIntro } from "./productIntro";
 export { ProductComments } from "./productComments";
+export { Filter } from "./filter";
+export { FilterArea } from "./filter/FilterArea";
+export { FilterTag } from "./filter/FilterTag";
+export { ProductList } from "./productList";
