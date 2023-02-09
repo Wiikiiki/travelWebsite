@@ -45,7 +45,7 @@ export const RegisterForm: React.FC = () => (
         { required: true, message: "Please confirm your password!" },
         ({ getFieldValue }) => ({
           validator(_, value) {
-            if (!value || getFieldValue === value) {
+            if (!value || getFieldValue("password") === value) {
               return Promise.resolve();
             }
             return Promise.reject("密码确认不一致！");
