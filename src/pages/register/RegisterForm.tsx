@@ -41,6 +41,7 @@ export const RegisterForm: React.FC = () => (
     <Form.Item
       label="Confirm Password"
       name="confirm"
+      hasFeedback
       rules={[
         { required: true, message: "Please confirm your password!" },
         ({ getFieldValue }) => ({
