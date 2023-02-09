@@ -1,24 +1,34 @@
+import styles from "./SignInForm.module.css";
 import { Button, Checkbox, Form, Input } from "antd";
-import styles from "./RegisterForm.module.css";
-import axios from "axios";
+import { signIn } from "../../redux/user/slice";
+
+import { useSelector, useAppDispatch } from "../../redux/hooks";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const RegisterForm: React.FC = () => {
+export const SignInForm: React.FC = () => {
+  const loading = useSelector((s) => s.user.loading);
+  const jwt = useSelector((s) => s.user.token);
+  const error = useSelector((s) => s.user.error);
+
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // 注册成功后，重定向至登录页面
-  const onFinish = async (values: any) => {
+  useEffect(() => {
+    if (jwt !== null) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jwt]);
+
+  const onFinish = (values: any) => {
     console.log("Success:", values);
-    try {
-      await axios.post("http://123.56.149.216:8080/auth/register", {
+    dispatch(
+      signIn({
         email: values.username,
         password: values.password,
-        confirmPassword: values.confirm,
-      });
-      navigate("/signin");
-    } catch (error) {
-      alert("注册失败！");
-    }
+      })
+    );
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -54,25 +64,6 @@ export const RegisterForm: React.FC = () => {
       </Form.Item>
 
       <Form.Item
-        label="Confirm Password"
-        name="confirm"
-        hasFeedback
-        rules={[
-          { required: true, message: "Please confirm your password!" },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject("密码确认不一致！");
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
         name="remember"
         valuePropName="checked"
         wrapperCol={{ offset: 8, span: 16 }}
@@ -81,7 +72,7 @@ export const RegisterForm: React.FC = () => {
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           Submit
         </Button>
       </Form.Item>

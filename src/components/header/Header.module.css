@@ -24,6 +24,12 @@
 
 .button-group {
   float: right;
+  white-space: nowrap;
+}
+
+.user-button {
+  line-height: 32px;
+  padding-right: 8px;
 }
 
 .main-header {

@@ -2,7 +2,7 @@ import styles from "./App.module.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   HomePage,
-  SigninPage,
+  SignInPage,
   RegisterPage,
   DetailPage,
   SearchPage,
@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/signin" element={<SigninPage />} />
+          <Route path="/signin" element={<SignInPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/detail/:touristRouteId" element={<DetailPage />} />
           <Route path="/search/:keywords?" element={<SearchPage />} />
