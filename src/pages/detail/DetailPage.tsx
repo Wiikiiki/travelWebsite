@@ -11,12 +11,8 @@ import {
   Menu,
 } from "antd";
 import styles from "./DetailPage.module.css";
-import {
-  Header,
-  Footer,
-  ProductIntro,
-  ProductComments,
-} from "../../components";
+import { ProductIntro, ProductComments } from "../../components";
+import { MainLayout } from "../../layout/mainLayout";
 
 import { useSelector, useAppDispatch } from "../../redux/hooks";
 // import { useDispatch } from "react-redux";
@@ -69,8 +65,7 @@ export const DetailPage: React.FC = () => {
   }
   return (
     <>
-      <Header />
-      <div className={styles["page-content"]}>
+      <MainLayout>
         {/* 产品简介、日期选择 */}
         <div className={styles["product-intro-container"]}>
           <Row>
@@ -147,8 +142,7 @@ export const DetailPage: React.FC = () => {
             <ProductComments data={commentMockData} />
           </div>
         </div>
-      </div>
-      <Footer />
+      </MainLayout>
     </>
   );
 };

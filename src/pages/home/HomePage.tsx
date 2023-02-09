@@ -1,13 +1,12 @@
 import React from "react";
-import styles from "./HomePage.module.css";
 import {
-  Header,
-  Footer,
   SideMenu,
   Carousel,
   ProductCollection,
   BusinessPartners,
 } from "../../components";
+import { MainLayout } from "../../layout/mainLayout";
+
 import { Col, Row, Typography, Spin } from "antd";
 
 import sideImage1 from "../../assets/images/sider_2019_12-09.png";
@@ -68,8 +67,7 @@ class HomePageComponent extends React.Component<PropsType> {
 
     return (
       <>
-        <Header />
-        <div className={styles["page-content"]}>
+        <MainLayout>
           <Row style={{ marginTop: 20 }}>
             <Col span={6}>
               <SideMenu />
@@ -105,9 +103,9 @@ class HomePageComponent extends React.Component<PropsType> {
             sideImage={sideImage3}
             products={productList[2].touristRoutes}
           />
-        </div>
-        <BusinessPartners />
-        <Footer />
+
+          <BusinessPartners />
+        </MainLayout>
       </>
     );
   }

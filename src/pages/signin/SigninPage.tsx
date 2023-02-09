@@ -1,5 +1,10 @@
 import React from "react";
+import { UserLayout } from "../../layout/userLayout";
 
 export const SigninPage: React.FC = () => {
-  return <h1>登录页面</h1>;
+  return (
+    <UserLayout>
+      <h1>登录页面</h1>
+    </UserLayout>
+  );
 };
