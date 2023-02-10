@@ -9,7 +9,11 @@ import {
   Typography,
   Anchor,
   Menu,
+  Button,
 } from "antd";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { addShoppingCartItem } from "../../redux/shoppingCart/slice";
+
 import styles from "./DetailPage.module.css";
 import { ProductIntro, ProductComments } from "../../components";
 import { MainLayout } from "../../layout/mainLayout";
@@ -38,6 +42,9 @@ export const DetailPage: React.FC = () => {
   const product = useSelector((state) => state.productDetail.data);
 
   const dispatch = useAppDispatch();
+
+  const jwt = useSelector((s) => s.user.token) as string;
+  const shoppingCartLoading = useSelector((s) => s.shoppingCart.loading);
 
   useEffect(() => {
     if (touristRouteId) {
@@ -82,6 +89,20 @@ export const DetailPage: React.FC = () => {
               />
             </Col>
             <Col span={11}>
+              <Button
+                className={styles["product-add-to-cart"]}
+                type="primary"
+                danger
+                loading={shoppingCartLoading}
+                onClick={() => {
+                  dispatch(
+                    addShoppingCartItem({ jwt, touristRouteID: product.id })
+                  );
+                }}
+              >
+                <ShoppingCartOutlined />
+                放入购物车
+              </Button>
               <RangePicker open style={{ marginTop: 20 }} />
             </Col>
           </Row>

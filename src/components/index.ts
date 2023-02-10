@@ -10,3 +10,4 @@ export { Filter } from "./filter";
 export { FilterArea } from "./filter/FilterArea";
 export { FilterTag } from "./filter/FilterTag";
 export { ProductList } from "./productList";
+export { PaymentCard } from "./paymentCard";
