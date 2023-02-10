@@ -4,14 +4,15 @@ import { MainLayout } from "../../layout/mainLayout";
 import { Row, Col, Affix } from "antd";
 import { ProductList, PaymentCard } from "../../components";
 import { useSelector, useAppDispatch } from "../../redux/hooks";
-import { clearShoppingCart } from "../../redux/shoppingCart/slice";
-import { use } from "i18next";
+import { clearShoppingCart, checkout } from "../../redux/shoppingCart/slice";
+import { useNavigate } from "react-router-dom";
 
 export const ShoppingCartPage: React.FC = (props) => {
   const loading = useSelector((s) => s.shoppingCart.loading);
   const shoppingCartItems = useSelector((s) => s.shoppingCart.items);
   const jwt = useSelector((s) => s.user.token) as string;
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <MainLayout>
@@ -36,7 +37,13 @@ export const ShoppingCartPage: React.FC = (props) => {
                       (s.discountPresent ? s.discountPresent : 1)
                   )
                   .reduce((a, b) => a + b, 0)}
-                onCheckout={() => {}}
+                onCheckout={() => {
+                  if (shoppingCartItems.length <= 0) {
+                    return;
+                  }
+                  dispatch(checkout(jwt));
+                  navigate("/placeOrder");
+                }}
                 onShoppingCartClear={() => {
                   dispatch(
                     clearShoppingCart({

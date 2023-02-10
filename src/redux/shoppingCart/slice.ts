@@ -82,6 +82,23 @@ export const clearShoppingCart = createAsyncThunk(
   }
 );
 
+// 结算
+export const checkout = createAsyncThunk(
+  "shoppingCart/checkout",
+  async (jwt: string, thunkAPI) => {
+    const { data } = await axios.post(
+      `http://123.56.149.216:8080/api/shoppingCart/checkout`,
+      null,
+      {
+        headers: {
+          Authorization: `bearer ${jwt}`,
+        },
+      }
+    );
+    return data;
+  }
+);
+
 export const shoppingCartSlice = createSlice({
   name: "shoppingCart",
   initialState,
@@ -154,6 +171,21 @@ export const shoppingCartSlice = createSlice({
       state,
       action: PayloadAction<string | null>
     ) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // 结算
+    [checkout.pending.type]: (state) => {
+      // return { ...state, loading: true };
+      state.loading = true;
+    },
+    [checkout.fulfilled.type]: (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.items = [];
+    },
+    [checkout.rejected.type]: (state, action: PayloadAction<string | null>) => {
       state.loading = false;
       state.error = action.payload;
     },
