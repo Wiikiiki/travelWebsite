@@ -103,7 +103,7 @@ export const DetailPage: React.FC = () => {
                 <ShoppingCartOutlined />
                 放入购物车
               </Button>
-              <RangePicker open style={{ marginTop: 20 }} />
+              <RangePicker open style={{ marginTop: 40 }} />
             </Col>
           </Row>
         </div>
