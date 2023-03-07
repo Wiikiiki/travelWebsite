@@ -42,7 +42,9 @@ export const UserLayout: React.FC<PropsTypes> = (props) => {
           {props.children}
         </div>
       </Content>
-      <Footer style={{ textAlign: "center" }}>Footer就不写了，太累了</Footer>
+      <Footer style={{ textAlign: "center", color: "grey" }}>
+        @React 旅游网
+      </Footer>
     </Layout>
   );
 };
