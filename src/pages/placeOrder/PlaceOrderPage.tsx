@@ -14,10 +14,10 @@ export const PlaceOrderPage: React.FC = () => {
   return (
     <MainLayout>
       <Row>
-        <col span={12}>
+        <Col span={12}>
           <PaymentForm />
-        </col>
-        <col span={12}>
+        </Col>
+        <Col span={12}>
           <CheckoutCard
             loading={loading}
             order={order}
@@ -25,7 +25,7 @@ export const PlaceOrderPage: React.FC = () => {
               dispatch(placeOrder({ jwt, orderId: order.id }));
             }}
           />
-        </col>
+        </Col>
       </Row>
     </MainLayout>
   );
