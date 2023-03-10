@@ -8,10 +8,15 @@ export const PaymentForm = () => {
       bordered={false}
       className={styles["payment-credit-card"]}
     >
+      {/* <Input />
       <Input />
-      <Input />
-      <Input />
-      <Input />
+      <Input /> */}
+      <label>
+        <br />
+        <br />
+        卡号：
+        <Input />
+      </label>
     </Card>
   );
 };

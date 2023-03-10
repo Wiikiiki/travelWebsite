@@ -1,5 +1,6 @@
-
 .payment-credit-card {
-    margin: 50px !important;
-    max-width: 400px;
+  margin: 50px !important;
+  max-width: 400px;
+  height: 220px;
+  background-color: #c0c0c0;
 }
